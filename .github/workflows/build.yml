@@ -18,7 +18,7 @@ jobs:
         run: |
           matrix=$(yaml2json build.yaml | jq -c .)
           yaml2json build.yaml
-          echo "::set-output name=matrix::${matrix}"
+          echo "::$GITHUB_OUTPUT name=matrix::${matrix}"
   build:
     runs-on: ubuntu-latest
     container:
@@ -41,9 +41,9 @@ jobs:
             DISPLAY_NAME="${{ matrix.board }}"
             ARTIFACT_NAME="${{ matrix.board }}-zmk"
           fi
-          echo ::set-output name=extra-cmake-args::${EXTRA_CMAKE_ARGS}
-          echo ::set-output name=artifact-name::${ARTIFACT_NAME}
-          echo ::set-output name=display-name::${DISPLAY_NAME}
+          echo ::$GITHUB_OUTPUT name=extra-cmake-args::${EXTRA_CMAKE_ARGS}
+          echo ::$GITHUB_OUTPUT name=artifact-name::${ARTIFACT_NAME}
+          echo ::$GITHUB_OUTPUT name=display-name::${DISPLAY_NAME}
       - name: Checkout
         uses: actions/checkout@v3
       - name: Cache west modules
